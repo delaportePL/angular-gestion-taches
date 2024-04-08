@@ -1,1 +1,5 @@
-<p>task-list works!</p>
+<ng-container *ngFor="let task of tasks">
+	<app-task-minimized
+		[task]="task">
+	</app-task-minimized>
+</ng-container>

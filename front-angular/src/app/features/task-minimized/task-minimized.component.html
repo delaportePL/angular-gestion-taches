@@ -1,1 +1,12 @@
-<p>task-minimized works!</p>
+<div class="wrapper">
+	<div>
+		<span class="id">id: {{ task.id }}</span>
+		<span class="title">{{ task.title }}</span>
+		<span class="category">{{ task.category | uppercase}}</span>
+	</div>
+	<div>
+		<span class="points">{{ task.points }}</span>
+		<span class="state">{{ task.state }}</span>
+		<span class="user">user: {{ task.user_id }}</span>
+	</div>	
+</div>

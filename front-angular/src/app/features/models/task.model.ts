@@ -1,9 +1,9 @@
 export interface Task {
-	id: number;
+	id: string;
 	title: string;
 	description: string;
 	state: string;
-	user_id: number;
+	user_id: string;
 	points: number;
 	category: string;
 }
