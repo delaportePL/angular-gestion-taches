@@ -6,13 +6,17 @@ import { AppComponent } from './app.component';
 import { TaskListComponent } from './features/task-list/task-list.component';
 import { TaskDetailsComponent } from './features/task-details/task-details.component';
 import { TaskMinimizedComponent } from './features/task-minimized/task-minimized.component';
+import { PageNotFoundComponent } from './features/page-not-found/page-not-found.component';
+import { TaskListOverlayComponent } from './features/task-list-overlay/task-list-overlay.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TaskListComponent,
     TaskDetailsComponent,
-    TaskMinimizedComponent
+    TaskMinimizedComponent,
+    PageNotFoundComponent,
+    TaskListOverlayComponent
   ],
   imports: [
     BrowserModule,
