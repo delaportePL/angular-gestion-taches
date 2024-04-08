@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
+
 import { Task } from '../models/task.model';
 
 @Injectable({
@@ -7,31 +9,31 @@ import { Task } from '../models/task.model';
 })
 export class TaskService {
   private tasks: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>([]);
+  private apiUrl = 'https://your-backend-api-url/tasks';
 
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
   getTasks(): Observable<Task[]> {
-    return this.tasks.asObservable();
+    const url = this.apiUrl + "/list";
+
+    return this.httpClient.get<Task[]>(url);
   }
 
-  addTask(task: Task): void {
-    const currentTasks = this.tasks.getValue();
-    const updatedTasks = [...currentTasks, task];
-    this.tasks.next(updatedTasks);
+  addTask(task: Task): Observable<Task> {
+    const url = this.apiUrl + "/list";
+
+    return this.httpClient.post<Task>(url, task);
   }
 
-  updateTask(updatedTask: Task): void {
-    const currentTasks = this.tasks.getValue();
-    const index = currentTasks.findIndex(task => task.id === updatedTask.id);
-    if (index !== -1) {
-      currentTasks[index] = updatedTask;
-      this.tasks.next(currentTasks);
-    }
+  updateTask(updatedTask: Task): Observable<Task> {
+    const url = `${ this.apiUrl }/update/${ updatedTask.id }`;
+
+    return this.httpClient.put<Task>(url, updatedTask);
   }
 
-  deleteTask(taskId: number): void {
-    const currentTasks = this.tasks.getValue();
-    const updatedTasks = currentTasks.filter(task => task.id !== taskId);
-    this.tasks.next(updatedTasks);
+  deleteTask(taskId: number): Observable<void> {
+    const url = `${ this.apiUrl }/${ taskId }`;
+
+    return this.httpClient.delete<void>(url);
   }
 }
