@@ -16,3 +16,14 @@ services:
     App\Service\MongoDBClient:
         arguments:
             $dsn: 'mongodb://localhost:27017'
+
+    App\Service\UserService:
+        arguments:
+            $dsn: 'mongodb://localhost:27017'
+
+    App\Service\MailService:
+        arguments:
+            $mailerMailSender: '%env(MAILER_MAIL_SENDER)%'
+            $mailerPassword: '%env(MAILER_PASSWORD)%'
+            $mailerHost: '%env(MAILER_HOST)%'
+            $mailerPort: '%env(MAILER_PORT)%'
