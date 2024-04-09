@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Symfony\Component\HttpFoundation\Request;
+use OpenApi\Attributes as OA;
 use DateTime;
 use DateTimeZone;
 
@@ -18,7 +19,14 @@ use DateTimeZone;
 
 class ApiRestController extends AbstractController
 {
+    
     #[Route('/api/tasks/list', name: 'listTasks', methods: ["GET"])]
+    #[OA\Tag(name: 'Tasks')]
+    /**
+     *Listage de toutes les tâches
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function listTasks(MongoDBClient $mongoDBClient): JsonResponse
     {
         $collection = $mongoDBClient->getClient()->selectDatabase('task-management')->selectCollection('tasks');
@@ -31,7 +39,14 @@ class ApiRestController extends AbstractController
         return new JsonResponse($tasksList);
     }
 
+
     #[Route('/api/tasks/listById{taskId}', name: 'listTasksById', methods: ["GET"])]
+    #[OA\Tag(name: 'Tasks')]
+    /**
+     *Listage de toutes les tâches ayant un certain ID
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function listTasksById(string $taskId, Request $request, MongoDBClient $mongoDBClient): JsonResponse
     {
         $collection = $mongoDBClient->getClient()->selectDatabase('task-management')->selectCollection('tasks');
@@ -46,6 +61,12 @@ class ApiRestController extends AbstractController
 
 
     #[Route('/api/tasks/add/{type}', name: 'addTask', methods: ["POST"])]
+    #[OA\Tag(name: 'Tasks')]
+    /**
+     *Ajout d'une tâche, en spécifiant son type
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function addTask(string $type, Request $request, MongoDBClient $mongoDBClient): JsonResponse
     {
         $requestData = json_decode($request->getContent(), true);
@@ -80,20 +101,15 @@ class ApiRestController extends AbstractController
         }
     }
 
-    #[Route('/api/tasks/delete/{taskId}', name: 'deleteTask', methods: ["DELETE"])]
-    public function deleteTask(string $taskId, MongoDBClient $mongoDBClient): JsonResponse
-    {
-        $collection = $mongoDBClient->getClient()->selectDatabase('task-management')->selectCollection('tasks');
-        $deleteResult = $collection->deleteOne(['idTask' => $taskId]);
-
-        if ($deleteResult->getDeletedCount() === 1) {
-            return new JsonResponse(['message' => 'Tâche supprimée avec succès'], Response::HTTP_OK);
-        } else {
-            return new JsonResponse(['message' => 'Échec de la suppression de la tâche'], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
+    
 
     #[Route('/api/tasks/update/{taskId}', name: 'updateTask', methods: ["PUT"])]
+    #[OA\Tag(name: 'Tasks')]
+    /**
+     *Mise à jour d'une tâche, à l'aide de son ID
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function updateTask(string $taskId, Request $request, MongoDBClient $mongoDBClient): JsonResponse
     {
         $requestData = json_decode($request->getContent(), true);
@@ -115,6 +131,26 @@ class ApiRestController extends AbstractController
             return new JsonResponse(['message' => 'Tâche mise à jour avec succès'], Response::HTTP_OK);
         } else {
             return new JsonResponse(['message' => 'Échec de la mise à jour de la tâche'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    #[Route('/api/tasks/delete/{taskId}', name: 'deleteTask', methods: ["DELETE"])]
+    #[OA\Tag(name: 'Tasks')]
+    /**
+     *Suppression d'une tâche, à l'aide de son ID
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteTask(string $taskId, MongoDBClient $mongoDBClient): JsonResponse
+    {
+        $collection = $mongoDBClient->getClient()->selectDatabase('task-management')->selectCollection('tasks');
+        $deleteResult = $collection->deleteOne(['idTask' => $taskId]);
+
+        if ($deleteResult->getDeletedCount() === 1) {
+            return new JsonResponse(['message' => 'Tâche supprimée avec succès'], Response::HTTP_OK);
+        } else {
+            return new JsonResponse(['message' => 'Échec de la suppression de la tâche'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
