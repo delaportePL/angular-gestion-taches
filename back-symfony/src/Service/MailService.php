@@ -46,6 +46,6 @@ class MailService
         <div style="width: 70%; height: 100%; margin: 0 auto; padding: 10px 30px 18px 30px; background: white">
         <br><h3 style="font-weight: 500; font-size: 18px; color: black; margin-bottom:15x;">' . $subject . ' </h3>
         <p style="font-size: 13.5px; font-weight: 300;  color: black; font-family: \'Google Sans\',Roboto,RobotoDraft,Helvetica,Arial,sans-serif;">   ' . $text . '</p>
-        <br><p style="font-size: 11px; color: black; font-family: \'Poppins\', sans-serif;padding-top: 20px;text-align: end; display:none">N° de la demande : ' . '</p></div></section></body></html>';
+        <br></div></section></body></html>';
     }
 }

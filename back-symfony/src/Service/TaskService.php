@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use MongoDB\Client;
+use MongoDB\Model\BSONArray;
 use DateTime;
 use DateTimeZone;
 
@@ -46,7 +47,7 @@ class TaskService
         if ($lastTask) {
             $lastIdNumber = (int) substr($lastTask['idTask'], strlen($type) + 1);
             $newIdNumber = $lastIdNumber + 1;
-            $newIdTask = $type . '-' . sprintf('%04d', $newIdNumber);
+            $newIdTask = $type . '-' . sprintf('%05d', $newIdNumber);
         } else {
             $newIdTask = $type . '-00001';
         }
@@ -58,7 +59,7 @@ class TaskService
             'state' => $requestData['state'] ?? null,
             'responsability' => $requestData['responsability'] ?? [],
             'criticality' => $requestData['urgency'] ?? null,
-            'creator' => $requestData['creator'] ?? null,
+            'creator' => $requestData['creator'],
             'dateCreation' => (new DateTime('now', new DateTimeZone('Europe/Paris')))->format('Y-m-d\TH:i:s')
         ];
 
@@ -66,7 +67,7 @@ class TaskService
         $insertResult = $collection->insertOne($newTask);
 
         if ($insertResult->getInsertedCount() === 1) {
-            return ['message' => 'Tâche créée avec succès', "users" => array_merge([$requestData['creator'] ?? null], $requestData['responsability']?? [])];
+            return ['message' => 'Tâche créée avec succès', "users" =>  $requestData['responsability']?? []];
         } else {
             return ['message' => 'Échec de la création de la tâche'];
         }
@@ -80,6 +81,8 @@ class TaskService
             return ['message' => 'Tâche non trouvée'];
         }
 
+        $array = $existingTask['responsability'];
+
         unset($requestData['idTask']);
         unset($requestData['dateCreation']);
 
@@ -87,6 +90,9 @@ class TaskService
         $updateResult = $this->collection->updateOne(['idTask' => $taskId], ['$set' => $requestData]);
 
         if ($updateResult->getModifiedCount() === 1) {
+            if (isset($requestData['responsability'])){
+                return ['message' => 'Tâche mise à jour avec succès', "users" => array_diff($requestData['responsability'], (array) $existingTask['responsability'])];
+            }
             return ['message' => 'Tâche mise à jour avec succès'];
         } else {
             return ['message' => 'Échec de la mise à jour de la tâche'];

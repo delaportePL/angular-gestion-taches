@@ -33,7 +33,7 @@ class ApiRestController extends AbstractController
         return new JsonResponse($TaskService->listTasks());
     }
 
-    #[Route('/api/tasks/listById{taskId}', name: 'listTasksById', methods: ["GET"])]
+    #[Route('/api/tasks/listById/{taskId}', name: 'listTasksById', methods: ["GET"])]
     #[OA\Tag(name: 'Tasks')]
     #[OA\Response(
         response: 200,
@@ -56,7 +56,7 @@ class ApiRestController extends AbstractController
         description: 'Renvoie un message de confirmation ou d\'erreur'
     )]
     #[OA\RequestBody(  
-        description: 'Entrer les clés et les valeurs des champs à inserer',    
+        description: 'Entrer les clés et les valeurs des champs à insérer. (champs obligatoires => creator)',    
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(property: 'title', type:'string'),
@@ -65,7 +65,8 @@ class ApiRestController extends AbstractController
                 new OA\Property(property: 'responsability', type:'string'),
                 new OA\Property(property: 'criticaly', type:'int'),
                 new OA\Property(property: 'creator', type:'string'),
-            ]
+            ],
+            required: ['title', 'description']
         )
     )]
     /**
@@ -88,8 +89,9 @@ class ApiRestController extends AbstractController
                     }
                 }
             }
-            return new JsonResponse($result["message"]);
+            unset($result["users"]);
         }
+
         return new JsonResponse($result);
     }
 
@@ -114,10 +116,23 @@ class ApiRestController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function updateTask(string $taskId, Request $request, TaskService $TaskService): JsonResponse
+    public function updateTask(string $taskId, Request $request, TaskService $taskService, UserService $userService, MailService $mailService): JsonResponse
     {
         $requestData = json_decode($request->getContent(), true);
-        return new JsonResponse($TaskService->updateTask($taskId, $requestData));
+        $result = $taskService->updateTask($taskId, $requestData);
+
+        if ($result["message"] == "Tâche mise à jour avec succès" && isset($result["users"])){
+            foreach ($result["users"] as $user){
+                if ($user != null && $user){
+                    $responseEmail = $userService->getUserMail($user);
+                    if ($responseEmail){
+                        $mailService->sendMailNewResponsability($responseEmail);
+                    }
+                }
+            }
+            unset($result["users"]);
+        }
+        return new JsonResponse($result);
     }
 
     #[Route('/api/tasks/delete/{taskId}', name: 'deleteTask', methods: ["DELETE"])]
