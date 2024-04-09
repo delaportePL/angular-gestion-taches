@@ -56,7 +56,7 @@ class ApiRestController extends AbstractController
             $newIdNumber = $lastIdNumber + 1;
             $newIdTask = $type . '-' . sprintf('%04d', $newIdNumber);
         } else {
-            $newIdTask = $type . '-0001';
+            $newIdTask = $type . '-00001';
         }
 
         $newTask = [
