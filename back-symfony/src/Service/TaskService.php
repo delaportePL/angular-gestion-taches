@@ -3,22 +3,10 @@
 namespace App\Service;
 
 use MongoDB\Client;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Routing\Annotation\Route;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Security;
-use Symfony\Component\HttpFoundation\Request;
-use OpenApi\Attributes as OA;
-use OA\JsonContent;
-use OA\Property;
-
 use DateTime;
 use DateTimeZone;
 
-class MongoDBClient
+class TaskService
 {
     private $client;
     private $collection;
@@ -44,18 +32,12 @@ class MongoDBClient
         return $tasksList;
     }
 
-    public function listTasksById(string $taskId, Request $request, MongoDBClient $mongoDBClient): JsonResponse
+    public function listTasksById(string $taskId): array
     {
-        $collection = $mongoDBClient->getClient()->selectDatabase('task-management')->selectCollection('tasks');
-        $tasks = $collection->find(["idTask" => $taskId]);
+        $task = $this->collection->findOne(["idTask" => $taskId]);
 
-        $tasksList = [];
-        foreach ($tasks as $task) {
-            $tasksList[] = $task;
-        }
-        return new JsonResponse($tasksList);
+        return $task ? [$task] : null;
     }
-
 
     public function addTask(string $type, $requestData): array
     {
@@ -87,6 +69,38 @@ class MongoDBClient
             return ['message' => 'Tâche créée avec succès'];
         } else {
             return ['message' => 'Échec de la création de la tâche'];
+        }
+    }
+
+    public function updateTask(string $taskId, $requestData): array
+    {
+        $existingTask = $this->collection->findOne(['idTask' => $taskId]);
+
+        if (!$existingTask) {
+            return ['message' => 'Tâche non trouvée'];
+        }
+
+        unset($requestData['idTask']);
+        unset($requestData['dateCreation']);
+
+        $requestData['dateUpdate'] = (new DateTime('now', new DateTimeZone('Europe/Paris')))->format('Y-m-d\TH:i:s');
+        $updateResult = $this->collection->updateOne(['idTask' => $taskId], ['$set' => $requestData]);
+
+        if ($updateResult->getModifiedCount() === 1) {
+            return ['message' => 'Tâche mise à jour avec succès'];
+        } else {
+            return ['message' => 'Échec de la mise à jour de la tâche'];
+        }
+    }
+
+    public function deleteTask(string $taskId): array
+    {
+        $deleteResult = $this->collection->deleteOne(['idTask' => $taskId]);
+
+        if ($deleteResult->getDeletedCount() === 1) {
+            return ['message' => 'Tâche supprimée avec succès'];
+        } else {
+            return ['message' => 'Échec de la suppression de la tâche'];
         }
     }
 }

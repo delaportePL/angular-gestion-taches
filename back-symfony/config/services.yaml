@@ -13,13 +13,13 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Service\MongoDBClient:
+    App\Service\TaskService:
         arguments:
-            $dsn: 'mongodb://localhost:27017'
+            $dsn: '%env(MONGODB_DSN)%'
 
     App\Service\UserService:
         arguments:
-            $dsn: 'mongodb://localhost:27017'
+            $dsn: '%env(MONGODB_DSN)%'
 
     App\Service\MailService:
         arguments:
