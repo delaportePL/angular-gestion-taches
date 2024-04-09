@@ -11,7 +11,6 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Symfony\Component\HttpFoundation\Request;
 
-
 use App\Service\MongoDBClient;
 
 class ApiRestController extends AbstractController
@@ -61,8 +60,9 @@ class ApiRestController extends AbstractController
             'urgency' => $requestData['urgency'] ?? null,
             'creator' => $requestData['creator'] ?? null,
             'created_at' => new \DateTime(),
+            'updated_at' => new \DateTime()
         ];
-        
+
         $collection = $mongoDBClient->getClient()->selectDatabase('task-management')->selectCollection('tasks');
         $insertResult = $collection->insertOne($newTask);
 
@@ -72,6 +72,5 @@ class ApiRestController extends AbstractController
             return new JsonResponse(['message' => 'Échec de la création de la tâche'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-
 
 }
