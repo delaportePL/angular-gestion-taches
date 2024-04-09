@@ -1,0 +1,128 @@
+[
+    {
+      "_id": {
+        "$oid": "6613e082eddcdb9ec1a22b52"
+      },
+      "idTask": "BRP-80128",
+      "title": "Ajouter la fonctionnalité de paiement",
+      "description": "Ajouter la fonctionnalité de paiement...",
+      "state": "en cours",
+      "responsibility": ["Colette Dupond", "Margaux Lipooux"],
+      "criticality": 4.6,
+      "creator": "Daniel Loupiche",
+      "dateCreation": "2024-01-05T00:00:00Z",
+      "dateUpdate": "2024-01-05T00:00:00Z"
+    },
+    {
+      "_id": {
+        "$oid": "6613e082eddcdb9ec1a22b53"
+      },
+      "idTask": "BRP-80129",
+      "title": "Mettre à jour la page d'accueil",
+      "description": "Mettre à jour la page d'accueil avec les dernières informations...",
+      "state": "à faire",
+      "responsibility": ["Jeanne Martin"],
+      "criticality": 3.2,
+      "creator": "Lucie Durand",
+      "dateCreation": "2024-01-06T00:00:00Z",
+      "dateUpdate": "2024-01-06T00:00:00Z"
+    },
+    {
+      "_id": {
+        "$oid": "6613e082eddcdb9ec1a22b54"
+      },
+      "idTask": "BRP-80130",
+      "title": "Développer la fonctionnalité de messagerie",
+      "description": "Développer la fonctionnalité de messagerie instantanée...",
+      "state": "en cours",
+      "responsibility": ["Pierre Dupont", "Pauline Dubois"],
+      "criticality": 4.8,
+      "creator": "Sophie Bernard",
+      "dateCreation": "2024-01-07T00:00:00Z",
+      "dateUpdate": "2024-01-07T00:00:00Z"
+    },
+    {
+      "_id": {
+        "$oid": "6613e082eddcdb9ec1a22b55"
+      },
+      "idTask": "BRP-80131",
+      "title": "Optimiser la base de données",
+      "description": "Optimiser la base de données pour améliorer les performances...",
+      "state": "en attente",
+      "responsibility": ["Thomas Lefebvre"],
+      "criticality": 4.2,
+      "creator": "Marie Petit",
+      "dateCreation": "2024-01-08T00:00:00Z",
+      "dateUpdate": "2024-01-08T00:00:00Z"
+    },
+    {
+      "_id": {
+        "$oid": "6613e082eddcdb9ec1a22b56"
+      },
+      "idTask": "BRP-80132",
+      "title": "Tester la fonctionnalité de recherche",
+      "description": "Tester la fonctionnalité de recherche pour vérifier son bon fonctionnement...",
+      "state": "à faire",
+      "responsibility": ["David Legrand"],
+      "criticality": 3.9,
+      "creator": "Camille Thomas",
+      "dateCreation": "2024-01-09T00:00:00Z",
+      "dateUpdate": "2024-01-09T00:00:00Z"
+    },
+    {
+      "_id": {
+        "$oid": "6613e082eddcdb9ec1a22b57"
+      },
+      "idTask": "BRP-80133",
+      "title": "Mettre à jour la documentation",
+      "description": "Mettre à jour la documentation technique avec les dernières modifications...",
+      "state": "en attente",
+      "responsibility": ["Élodie Morel"],
+      "criticality": 3.5,
+      "creator": "Julien Martin",
+      "dateCreation": "2024-01-10T00:00:00Z",
+      "dateUpdate": "2024-01-10T00:00:00Z"
+    },
+    {
+      "_id": {
+        "$oid": "6613e082eddcdb9ec1a22b58"
+      },
+      "idTask": "BRP-80134",
+      "title": "Déployer la nouvelle version de l'application",
+      "description": "Déployer la nouvelle version de l'application sur le serveur de production...",
+      "state": "à faire",
+      "responsibility": ["Éric Dubois", "Sylvie Lambert"],
+      "criticality": 4.4,
+      "creator": "François Durand",
+      "dateCreation": "2024-01-11T00:00:00Z",
+      "dateUpdate": "2024-01-11T00:00:00Z"
+    },
+    {
+      "_id": {
+        "$oid": "6613e082eddcdb9ec1a22b59"
+      },
+      "idTask": "BRP-80135",
+      "title": "Résoudre le problème de sécurité",
+      "description": "Résoudre le problème de sécurité signalé dans l'audit...",
+      "state": "en cours",
+      "responsibility": ["Marc Dubois", "Alice Lefebvre"],
+      "criticality": 4.9,
+      "creator": "Caroline Martin",
+      "dateCreation": "2024-01-12T00:00:00Z",
+      "dateUpdate": "2024-01-12T00:00:00Z"
+    },
+    {
+      "_id": {
+        "$oid": "6613e082eddcdb9ec1a22b60"
+      },
+      "idTask": "BRP-80136",
+      "title": "Organiser la réunion de lancement du projet",
+      "description": "Organiser la réunion de lancement du projet avec toutes les parties prenantes...",
+      "state": "à faire",
+      "responsibility": ["Sophie Dubois", "Lucas Martin"],
+      "criticality": 3.7,
+      "creator": "Manon Durand",
+      "dateCreation": "2024-01-13T00:00:00Z",
+      "dateUpdate": "2024-01-13T00:00:00Z"
+    }
+]

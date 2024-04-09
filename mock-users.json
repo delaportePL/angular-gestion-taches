@@ -1,0 +1,21 @@
+[{
+  "_id": {
+    "$oid": "6613e082eddcdb9ec1ae2b52"
+  },
+  "user": "David Konate",
+  "email": "david.konate@efrei.net"
+},
+{
+  "_id": {
+    "$oid": "661558253ce184b051004881"
+  },
+  "user": "Valérie Mascaut",
+  "email": "valerie.mass@gmail.com"
+},
+{
+  "_id": {
+    "$oid": "661587253ce184b051004889"
+  },
+  "user": "David Camara",
+  "email": "ddkonate54@gmail.com"
+}]
