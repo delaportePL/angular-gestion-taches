@@ -41,4 +41,14 @@ class UserService
         return $usersList;
     }
 
+    public function getUserMail(string $user): string
+    {
+        $existingUser = $this->collection->findOne(['user' => $user]);
+
+        if (!$existingUser) {
+            return false;
+        }
+        return $existingUser["email"];
+    }
+
 }

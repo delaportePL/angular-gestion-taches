@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Service\TaskService;
+use App\Service\MailService;
+use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -71,10 +73,24 @@ class ApiRestController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function addTask(string $type, Request $request, TaskService $TaskService): JsonResponse
+
+    public function addTask(string $type, Request $request, TaskService $taskService, MailService $mailService, UserService $userService): JsonResponse
     {
         $requestData = json_decode($request->getContent(), true);
-        return new JsonResponse($TaskService->addTask($type, $requestData));
+        $result = $taskService->addTask($type, $requestData);
+
+        if ($result["message"] == "Tâche créée avec succès"){
+            foreach (array_unique($result["users"]) as $user){
+                if ($user != null && $user){
+                    $responseEmail = $userService->getUserMail($user);
+                    if ($responseEmail){
+                        $mailService->sendMailNewResponsability($responseEmail);
+                    }
+                }
+            }
+            return new JsonResponse($result["message"]);
+        }
+        return new JsonResponse($result);
     }
 
     #[Route('/api/tasks/update/{taskId}', name: 'updateTask', methods: ["PUT"])]

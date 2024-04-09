@@ -56,7 +56,7 @@ class TaskService
             'title' => $requestData['title'] ?? null,
             'description' => $requestData['description'] ?? null,
             'state' => $requestData['state'] ?? null,
-            'responsibility' => $requestData['responsibility'] ?? [],
+            'responsability' => $requestData['responsability'] ?? [],
             'criticality' => $requestData['urgency'] ?? null,
             'creator' => $requestData['creator'] ?? null,
             'dateCreation' => (new DateTime('now', new DateTimeZone('Europe/Paris')))->format('Y-m-d\TH:i:s')
@@ -66,7 +66,7 @@ class TaskService
         $insertResult = $collection->insertOne($newTask);
 
         if ($insertResult->getInsertedCount() === 1) {
-            return ['message' => 'Tâche créée avec succès'];
+            return ['message' => 'Tâche créée avec succès', "users" => array_merge([$requestData['creator'] ?? null], $requestData['responsability']?? [])];
         } else {
             return ['message' => 'Échec de la création de la tâche'];
         }

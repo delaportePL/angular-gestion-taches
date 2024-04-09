@@ -16,7 +16,7 @@ use OA\Property;
 
 class MailController extends AbstractController
 {
-    #[Route('/api/users/list', name: 'listUsers', methods: ["GET"])]
+    #[Route('/api/users/list', name: 'listUsers', methods: ["POST"])]
     #[OA\Tag(name: 'Users')]
     #[OA\Response(response: 200, description: 'Renvoie la liste de tous les users')]
     /**
@@ -28,20 +28,4 @@ class MailController extends AbstractController
     {
         return new JsonResponse($userService->listUsers());
     }
-
-    #[Route('/api/users/sendMail', name: 'sendMail', methods: ["POST"])]
-    #[OA\Tag(name: 'Users')]
-    #[OA\Response(response: 200, description: 'Retourne un message de confirmation ou un message d\'erreur')]
-    /**
-     *Envoie d'un mail à un user
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function sendMailNewResponsability(MailService $mailService, Request $request): JsonResponse
-    {
-        $requestData = json_decode($request->getContent(), true);
-        return new JsonResponse($mailService->sendMailNewResponsability($requestData["email"]));
-    }
-
-
 }
