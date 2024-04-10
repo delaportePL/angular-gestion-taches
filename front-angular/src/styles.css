@@ -3,5 +3,9 @@
 	padding: 0;
 	box-sizing: border-box;
 	font-family: "Geologica", sans-serif;
-	/* font-family: "Space Mono", monospace, Arial, sans-serif; */
+	/* font-family: monospace, Arial, sans-serif; */
+}
+html {
+	color: #fff;
+	background: #555;
 }

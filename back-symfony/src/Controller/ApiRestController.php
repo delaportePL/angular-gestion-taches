@@ -33,21 +33,22 @@ class ApiRestController extends AbstractController
         return new JsonResponse($TaskService->listTasks());
     }
 
-    #[Route('/api/tasks/listById/{taskId}', name: 'listTasksById', methods: ["GET"])]
+
+    #[Route('/api/tasks/listAssignedByUserId/{user_id}', name: 'listAssignedTasksByUserId', methods: ["GET"])]
     #[OA\Tag(name: 'Tasks')]
     #[OA\Response(
         response: 200,
-        description: 'Renvoie la liste de toutes les tâches ayant un certain ID'
+        description: 'Renvoie la liste de toutes les tâches assignées à un utilisateur'
     )]
     /**
-     * Listage de toutes les tâches ayant un certain ID
+     * Listage de toutes les tâches assignées à un utilisateur
      * @param Request $request
      * @return JsonResponse
      */
-    public function listTasksById(string $taskId, Request $request, TaskService $TaskService): JsonResponse
-    {
+    public function listAssignedTasksByUserId(string $taskId, Request $request, TaskService $TaskService): JsonResponse {
         return new JsonResponse($TaskService->listTasksById($taskId));
     }
+
 
     #[Route('/api/tasks/add/{type}', name: 'addTask', methods: ["POST"])]
     #[OA\Tag(name: 'Tasks')]
@@ -59,11 +60,14 @@ class ApiRestController extends AbstractController
         description: 'Entrer les clés et les valeurs des champs à insérer. (champs obligatoires => creator)',    
         content: new OA\JsonContent(
             properties: [
+                new OA\Property(property: 'project_id', type:'string'),
                 new OA\Property(property: 'title', type:'string'),
                 new OA\Property(property: 'description', type:'string'),
                 new OA\Property(property: 'state', type:'string'),
-                new OA\Property(property: 'responsability', type:'string'),
-                new OA\Property(property: 'criticaly', type:'int'),
+                // new OA\Property(property: 'responsability', type:'string'),
+                new OA\Property(property: 'assigned_user_id', type:'string'),
+                // new OA\Property(property: 'criticaly', type:'int'),
+                new OA\Property(property: 'points', type:'int'),
                 new OA\Property(property: 'creator', type:'string'),
             ],
             required: ['title', 'description']
@@ -75,10 +79,10 @@ class ApiRestController extends AbstractController
      * @return JsonResponse
      */
 
-    public function addTask(string $type, Request $request, TaskService $taskService, MailService $mailService, UserService $userService): JsonResponse
+    public function addTask(Request $request, TaskService $taskService, MailService $mailService, UserService $userService): JsonResponse
     {
         $requestData = json_decode($request->getContent(), true);
-        $result = $taskService->addTask($type, $requestData);
+        $result = $taskService->addTask($requestData);
 
         if ($result["message"] == "Tâche créée avec succès"){
             foreach (array_unique($result["users"]) as $user){
@@ -94,6 +98,7 @@ class ApiRestController extends AbstractController
 
         return new JsonResponse($result);
     }
+
 
     #[Route('/api/tasks/update/{taskId}', name: 'updateTask', methods: ["PUT"])]
     #[OA\Tag(name: 'Tasks')]

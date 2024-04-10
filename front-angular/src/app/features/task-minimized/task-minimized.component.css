@@ -1,12 +1,15 @@
 .wrapper {
 	display: grid;
-	grid-template-columns: minmax(460px, 600px) minmax(240px, 300px);
+	grid-template-columns: minmax(460px, 600px) minmax(240px, 300px) 40px;
 	padding: 12px;
 	background: #444;
-	border: 1px solid #eee;
+	border: 1px solid #aaa;
+	border-top-width: 0;
 	color:#fff;
 }
-
+:host:first-child > .wrapper {
+	border-top-width: 1px;
+}
 .wrapper > div {
 	display: flex;
 	align-items: center;
@@ -41,4 +44,15 @@ span {
 }
 .user {
 
+}
+
+.actions > img {
+	padding: 8px;
+	transition: all .2s;
+	opacity: .8;
+}
+.actions > img:hover{
+	cursor: pointer;
+	transform: scale(1.2);
+	opacity: 1;
 }

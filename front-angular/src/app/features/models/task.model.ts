@@ -1,9 +1,18 @@
 export interface Task {
-	id: string;
+	_id: any;
+	idTask: string;
+	projectId: string;
+
 	title: string;
+	category: string;
 	description: string;
 	state: string;
-	user_id: string;
 	points: number;
-	category: string;
+	priority: string;
+
+	creatorUserId: string;
+	assignedUserId: string;
+
+	creationDate: Date;
+	modificationDate: Date;
 }
