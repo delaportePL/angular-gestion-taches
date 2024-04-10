@@ -44,7 +44,7 @@ class TaskService
 
     public function addTask($requestData): array
     {
-        $projectId = $requestData['project_id'];
+        $projectId = $requestData['projectId'];
 
          $lastTask = $this->client->selectDatabase('task-management')->selectCollection('tasks')->findOne(['idTask' => new \MongoDB\BSON\Regex("^" . $projectId . "\-")], ['sort' => ['idTask' => -1]]);
 

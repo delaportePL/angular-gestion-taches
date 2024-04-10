@@ -16,7 +16,7 @@ use OA\Property;
 
 class MailController extends AbstractController
 {
-    #[Route('/api/users/list', name: 'listUsers', methods: ["POST"])]
+    #[Route('/api/users/list', name: 'listUsers', methods: ["GET"])]
     #[OA\Tag(name: 'Users')]
     #[OA\Response(response: 200, description: 'Renvoie la liste de tous les users')]
     /**
