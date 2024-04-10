@@ -4,6 +4,7 @@ import { Task } from '../models/task.model';
 import { TaskService } from '../services/task.service';
 import { Project } from '../models/project.model';
 import { User } from '../models/user.model';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-task-list',
@@ -14,6 +15,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
   private _unsubscribeAll: Subject<void> = new Subject<void>();
   tasks!: Task[];
   filteredByUserTasks!: Task[];
+
+  users!: User[];
   selectedUser: User = {
     "_id": "2",
     "firstName": "David",
@@ -28,7 +31,9 @@ export class TaskListComponent implements OnInit, OnDestroy {
     { projectId: "UX", label:"Amélioration UX", tasks: []}
   ]
 
-  constructor(private taskService: TaskService) {}
+  constructor(private taskService: TaskService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     // this.tasks = [
@@ -60,6 +65,11 @@ export class TaskListComponent implements OnInit, OnDestroy {
     //     category: TaskCategory.BUG,
     //   },
     // ];
+    this.userService.getUsers().subscribe(users => {
+      this.users = users;
+      console.log("users :", this.users)
+    });
+
     this.taskService.getTasks().subscribe(tasks => {
       this.tasks = tasks;
       this.projects.forEach(project => {

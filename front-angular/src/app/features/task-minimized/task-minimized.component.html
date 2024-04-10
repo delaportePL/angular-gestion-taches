@@ -8,7 +8,18 @@
 		<span class="points">{{ task.points }}</span>
 		<span class="prioeity">{{ task.priority }}</span>
 		<span class="state">{{ task.state }}</span>
-		<span class="user">user: {{ task.assignedUserId }}</span>
+		<!-- <span class="user">user: {{ task.assignedUserId }}</span> -->
+		<div class="picture">
+			<ng-container *ngIf="assignedUser?.imageUrl">
+				<img [src]="'assets/img/' + assignedUser?.imageUrl" alt="Image de profil" width="64" height="64">
+			</ng-container>
+			<ng-container *ngIf="!assignedUser?.imageUrl">
+				<span [style.background-color]="assignedUser?.color">
+					{{ assignedUser?.firstName }}
+				</span>
+			</ng-container>
+		</div>
+
 	</div>
 	<div class="actions">
 		<img src="assets/img/trash.svg" alt="trash image" width="44" height="44"

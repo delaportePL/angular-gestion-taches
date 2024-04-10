@@ -3,7 +3,8 @@
 	<ng-container *ngFor="let task of tasks">
 		<app-task-minimized
 			(onDeleteTaskEvent)="deleteTask($event)"
-			[task]="task">
+			[task]="task"
+			[users]="users">
 		</app-task-minimized>
 	</ng-container>
 </div>

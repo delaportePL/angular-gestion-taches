@@ -56,3 +56,20 @@ span {
 	transform: scale(1.2);
 	opacity: 1;
 }
+
+.picture {
+	display: flex;
+	align-items: center;
+}
+
+.picture > * {
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+}
+
+.picture > span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
