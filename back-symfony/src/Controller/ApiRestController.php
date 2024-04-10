@@ -86,7 +86,7 @@ class ApiRestController extends AbstractController
                 if ($result["users"] != null && isset($result["users"])){
                     $responseEmail = $userService->getUserMail($result["users"]);
                     if ($responseEmail){
-                        $mailService->sendMailNewResponsability($responseEmail, $userService->getFirstName($user), $userService->getLastName($user));
+                        $mailService->sendMailNewResponsability($responseEmail, $userService->getFirstName($result["users"]), $userService->getLastName($result["users"]));
                     }
                 }
                 unset($result["users"]);
@@ -122,14 +122,12 @@ class ApiRestController extends AbstractController
         $result = $taskService->updateTask($taskId, $requestData);
 
         if ($result["message"] == "Tâche mise à jour avec succès" && isset($result["users"])){
-            foreach ($result["users"] as $user){
-                if ($user != null && $user){
-                    $responseEmail = $userService->getUserMail($user);
+                if ($result["users"] != null && $result["users"]){
+                    $responseEmail = $userService->getUserMail($result["users"]);
                     if ($responseEmail){
-                        $mailService->sendMailNewResponsability($responseEmail, $userService->getFirstName($user), $userService->getLastName($user));
+                        $mailService->sendMailNewResponsability($responseEmail, $userService->getFirstName($result["users"]), $userService->getLastName($result["users"]));
                     }
                 }
-            }
             unset($result["users"]);
         }
         return new JsonResponse($result);
