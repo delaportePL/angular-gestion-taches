@@ -16,13 +16,13 @@ h2 {
 
 .project > h3 {
 	position: relative;
-	margin-top: 20px;
-	padding-left: 44px;
+	margin: 20px 0 4px;
+	padding-left: 40px;
 }
 .project > h3::after {
 	position: absolute;
 	top:50%;
-	left: 20px;
+	left: 16px;
 	content: "";
 	width: 24px;
 	height: 12px;

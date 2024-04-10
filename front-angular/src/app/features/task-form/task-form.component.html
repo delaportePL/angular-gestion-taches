@@ -1,0 +1,61 @@
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="form-container">
+	<div>
+	  	<label for="title">Titre :</label>
+	  	<input type="text" formControlName="title" id="title">
+	  	<div class="error-message">
+			<span *ngIf="!isFieldValid('title')" >{{ returnFormError('title') }}</span>
+	  </div>
+	</div>
+ 
+	<div>
+		<label for="projectId">Projet : </label>
+		<select formControlName="projectId" id="projectId">
+			<option *ngFor="let project of projects" [value]="project.projectId">{{ project.label }}</option>
+		</select>
+		<div class="error-message">
+			<span *ngIf="!isFieldValid('projectId')">{{ returnFormError('projectId') }}</span>
+		</div>
+	</div>
+
+	<div>
+		<label for="state">Etat :</label>
+		<select formControlName="state" id="state">
+			<option *ngFor="let task of taskStateEnum | keyvalue" [value]="task.key">
+				{{ task.value }}
+			</option>
+		</select>
+		<div class="error-message">
+			<span *ngIf="!isFieldValid('state')">{{ returnFormError('state') }}</span>
+		</div>
+	</div>
+
+	<div>
+		<label for="category">Catégorie :</label>
+		<select formControlName="category" id="category">
+			<option *ngFor="let task of taskCategoryEnum | keyvalue" [value]="task.key">
+				{{ task.value }}
+			</option>
+		</select>
+		<div class="error-message">
+			<span *ngIf="!isFieldValid('category')">{{ returnFormError('category') }}</span>
+		</div>
+	</div>
+
+	<div>
+		<label for="points">Nombre de points :</label>
+		<input type="number" formControlName="points" id="points" min="1" max="20"/>
+		<div class="error-message">
+			<span *ngIf="!isFieldValid('points')">{{ returnFormError('points') }}</span>
+	  </div>
+	</div>
+
+	<div>
+		<label for="description">Description :</label>
+		<textarea formControlName="description" id="description" rows="5" cols="33"></textarea>
+		<div class="error-message">
+		 	<span *ngIf="!isFieldValid('description')">{{ returnFormError('description') }}</span>
+		</div>
+	</div>
+	 	
+	<button type="submit" [disabled]="!taskForm.valid">Créer tâche</button>
+ </form>

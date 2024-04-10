@@ -15,7 +15,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
   tasks!: Task[];
   filteredByUserTasks!: Task[];
   selectedUser: User = {
-    "_id": "1",
+    "_id": "2",
     "firstName": "David",
     "lastName": "Konate",
     "email": "david.konate@efrei.net",

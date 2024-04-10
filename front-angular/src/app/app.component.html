@@ -1,6 +1,9 @@
 <nav>
   <ul>
-    <li><a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page">Liste des tâches</a></li>
+    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      Liste des tâches</a></li>
+    <li><a routerLink="/ajouter-tache" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      Ajouter une tâche</a></li>
   </ul>
 </nav>
 

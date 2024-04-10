@@ -1,0 +1,61 @@
+/* Style for form container */
+.form-container {
+	max-width: 500px;
+	margin: 20px auto;
+	padding: 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+ }
+ .form-container > div {
+	margin: 8px 0;
+ }
+ 
+ /* Style for form fields */
+ .form-container label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+ }
+ 
+ .form-container input[type="text"],
+ .form-container input[type="number"],
+ .form-container select,
+ .form-container textarea {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+ }
+ 
+ .form-container select {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background-image: url('data:image/svg+xml;utf8,<svg fill="%23cccccc" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+	background-repeat: no-repeat;
+	background-position-x: calc(100% - 10px);
+	background-position-y: 50%;
+	padding-right: 30px;
+ }
+ 
+ .form-container textarea {
+	resize: vertical;
+ }
+ 
+ /* Style for error messages */
+ .form-container .error-message {
+	height: 16px;
+	color: #d9534f;
+	font-size: 12px;
+ }
+
+ button {
+	display: block;
+	margin: 0 auto;
+	background-color: #4CAF50;
+	padding: 8px 20px;
+	font-weight: 900;
+	font-size: 16px;
+ }
+ 

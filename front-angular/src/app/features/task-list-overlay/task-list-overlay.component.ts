@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { TaskService } from '../services/task.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-list-overlay',
@@ -7,4 +9,11 @@ import { Component } from '@angular/core';
 })
 export class TaskListOverlayComponent {
 
+  constructor(private router: Router) {}
+
+  onAddTaskClick() {
+    this.router.navigateByUrl('ajouter-tache');
+    // const task 
+    // this.taskService.addTask(task);
+  }
 }
