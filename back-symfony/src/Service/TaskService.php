@@ -4,6 +4,8 @@ namespace App\Service;
 
 use MongoDB\Client;
 use MongoDB\Model\BSONArray;
+use MongoDB\Collection;
+use MongoDB\BSON\ObjectId;
 use DateTime;
 use DateTimeZone;
 
@@ -35,7 +37,7 @@ class TaskService
 
     public function listTasksById(string $taskId): array
     {
-        $task = $this->collection->findOne(["idTask" => $taskId]);
+        $task = $this->collection->findOne(["_id" => new ObjectId($taskId)]);
 
         return $task ? [$task] : null;
     }
@@ -43,7 +45,8 @@ class TaskService
     public function addTask($requestData): array
     {
         $projectId = $requestData['project_id'];
-        $lastTask = $this->client->selectDatabase('task-management')->selectCollection('tasks')->findOne(['idTask' => new \MongoDB\BSON\Regex("^" + $projectId + "\-")], ['sort' => ['idTask' => -1]]);
+
+         $lastTask = $this->client->selectDatabase('task-management')->selectCollection('tasks')->findOne(['idTask' => new \MongoDB\BSON\Regex("^" . $projectId . "\-")], ['sort' => ['idTask' => -1]]);
 
         if ($lastTask) {
             $lastIdNumber = (int) substr($lastTask['idTask'], strlen($projectId) + 1);
@@ -61,6 +64,7 @@ class TaskService
             'category' => $requestData['category'] ?? null,
             'state' => $requestData['state'] ?? null,
             'points' => $requestData['points'] ?? null,
+            'assignedUserId' => $requestData['assignedUserId'] ?? null,
             'creationDate' => (new DateTime('now', new DateTimeZone('Europe/Paris')))->format('Y-m-d\TH:i:s'),
             'creatorUserId' => $requestData['creatorUserId']
         ];
@@ -77,7 +81,7 @@ class TaskService
 
     public function updateTask(string $taskId, $requestData): array
     {
-        $existingTask = $this->collection->findOne(['idTask' => $taskId]);
+        $existingTask = $this->collection->findOne(["_id" => new \MongoDB\BSON\ObjectId($taskId)]);
 
         if (!$existingTask) {
             return ['message' => 'Tâche non trouvée'];
@@ -86,10 +90,15 @@ class TaskService
         unset($requestData['idTask']);
         unset($requestData['creationDate']);
 
+        
+
         $requestData['modificationDate'] = (new DateTime('now', new DateTimeZone('Europe/Paris')))->format('Y-m-d\TH:i:s');
-        $updateResult = $this->collection->updateOne(['idTask' => $taskId], ['$set' => $requestData]);
+        $updateResult = $this->collection->updateOne(["_id" => new \MongoDB\BSON\ObjectId($taskId)], ['$set' => $requestData]);
 
         if ($updateResult->getModifiedCount() === 1) {
+            if (isset($requestData['assignedUserId'])){
+                return ['message' => 'Tâche mise à jour avec succès', "users" => $requestData['assignedUserId']];
+            }
             return ['message' => 'Tâche mise à jour avec succès'];
         } else {
             return ['message' => 'Échec de la mise à jour de la tâche'];

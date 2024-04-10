@@ -44,12 +44,12 @@ class ApiRestController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function listAssignedTasksByUserId(string $taskId, Request $request, TaskService $TaskService): JsonResponse {
-        return new JsonResponse($TaskService->listTasksById($taskId));
+    public function listAssignedTasksByUserId(string $user_id, Request $request, TaskService $TaskService): JsonResponse {
+        return new JsonResponse($TaskService->listTasksById($user_id));
     }
 
     
-    #[Route('/api/tasks/add/{type}', name: 'addTask', methods: ["POST"])]
+    #[Route('/api/tasks/add', name: 'addTask', methods: ["POST"])]
     #[OA\Tag(name: 'Tasks')]
     #[OA\Response(
         response: 200,
@@ -69,7 +69,6 @@ class ApiRestController extends AbstractController
                 new OA\Property(property: 'points', type:'int'),
                 new OA\Property(property: 'creator', type:'string'),
             ],
-            required: ['title', 'description']
         )
     )]
     /**
@@ -84,14 +83,12 @@ class ApiRestController extends AbstractController
         $result = $taskService->addTask($requestData);
 
         if ($result["message"] == "Tâche créée avec succès"){
-            foreach (array_unique($result["users"]) as $user){
-                if ($user != null && $user){
-                    $responseEmail = $userService->getUserMail($user);
+                if ($result["users"] != null && isset($result["users"])){
+                    $responseEmail = $userService->getUserMail($result["users"]);
                     if ($responseEmail){
                         $mailService->sendMailNewResponsability($responseEmail);
                     }
                 }
-            }
             unset($result["users"]);
         }
 
@@ -126,16 +123,14 @@ class ApiRestController extends AbstractController
         $result = $taskService->updateTask($taskId, $requestData);
 
         if ($result["message"] == "Tâche mise à jour avec succès" && isset($result["users"])){
-            foreach ($result["users"] as $user){
-                if ($user != null && $user){
-                    $responseEmail = $userService->getUserMail($user);
-                    if ($responseEmail){
-                        $mailService->sendMailNewResponsability($responseEmail);
-                    }
+            if ($result["users"] != null && isset($result["users"])){
+                $responseEmail = $userService->getUserMail($result["users"]);
+                if ($responseEmail){
+                    $mailService->sendMailNewResponsability($responseEmail);
                 }
             }
-            unset($result["users"]);
         }
+        unset($result["users"]);
         return new JsonResponse($result);
     }
 
