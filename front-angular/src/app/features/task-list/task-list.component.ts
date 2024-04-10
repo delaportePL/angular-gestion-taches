@@ -5,6 +5,7 @@ import { TaskState } from '../enums/task-state.enum';
 import { TaskCategory } from '../enums/task-category.enum';
 import { TaskService } from '../services/task.service';
 import { TaskResponse } from '../models/task-response.model';
+import { Project } from '../models/project.model';
 
 @Component({
   selector: 'app-task-list',
@@ -13,8 +14,12 @@ import { TaskResponse } from '../models/task-response.model';
 })
 export class TaskListComponent implements OnInit, OnDestroy {
   private _unsubscribeAll: Subject<void> = new Subject<void>();
-  tasks$!: Observable<Task[]>;
   tasks!: Task[];
+
+  projects: Project[] = [
+    { projectId: "BRP", label: "Automatisation des tests", tasks: [] },
+    { projectId: "UX", label:"Amélioration UX", tasks: []}
+  ]
 
   constructor(private taskService: TaskService) {}
 
@@ -51,12 +56,14 @@ export class TaskListComponent implements OnInit, OnDestroy {
     // ];
     this.taskService.getTasks().subscribe(tasks => {
       this.tasks = tasks;
+      this.projects.forEach(project => {
+        project.tasks = this.tasks.filter(task => task.projectId == project.projectId);
+      });
     });
   }
 
 
   deleteTask(taskId: string) {
-    console.log(taskId);
     this.taskService.deleteTask(taskId).subscribe(response => {
       if(response.tasks) {
         this.tasks = response.tasks;

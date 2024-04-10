@@ -4,3 +4,19 @@
 		[task]="task">
 	</app-task-minimized>
 </ng-container>
+
+
+<h2>Liste des tâches par projet</h2>
+<ng-container *ngFor="let project of projects">
+	<div class="project">
+		<h3>{{ project.projectId }} - {{ project.label }}</h3>
+		
+		<ng-container *ngFor="let task of project.tasks">
+			<app-task-minimized
+				(onDeleteTaskEvent)="deleteTask($event)"
+				[task]="task">
+			</app-task-minimized>
+		</ng-container>
+
+	</div>
+</ng-container>
