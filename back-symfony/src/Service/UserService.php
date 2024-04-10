@@ -51,4 +51,25 @@ class UserService
         return $existingUser["email"];
     }
 
+    public function getFirstName(string $user): ?string
+    {
+        $existingUser = $this->collection->findOne(['user' => $user]);
+
+        if (!$existingUser) {
+            return null;
+        }
+
+        return $existingUser["firstName"] ?? null;
+    }
+
+    public function getLastName(string $user): ?string
+    {
+        $existingUser = $this->collection->findOne(['user' => $user]);
+
+        if (!$existingUser) {
+            return null;
+        }
+
+        return $existingUser["lastName"] ?? null;
+    }
 }

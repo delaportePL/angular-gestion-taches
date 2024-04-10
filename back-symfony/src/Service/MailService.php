@@ -24,13 +24,13 @@ class MailService
         $this->mail->isHTML(true);
     }
 
-    public function sendMailNewResponsability($email):string
+    public function sendMailNewResponsability($email, $firstname, $lastname):string
     {
         try {
             $this->mail->clearAddresses();
             $this->mail->addAddress($email);
             $this->mail->Subject = "Nouvelle tâche";
-            $this->mail->Body = $this->getBodyMail("Nouvelle tâche attribuée");
+            $this->mail->Body = $this->getBodyMail("Nouvelle tâche attribuée", $firstname, $lastname);
             $this->mail->send();
             return "Mail envoyé";
         } 
@@ -39,7 +39,7 @@ class MailService
         }
     }
 
-    private function getBodyMail($subject):string
+    private function getBodyMail($subject, $firstname, $lastname):string
     {
         return '<html lang="fr">
         <head>
@@ -93,7 +93,7 @@ class MailService
         <body>
             <div class="container">
                 <h3>' . $subject . '</h3>
-                <p>Bonjour,</p>
+                <p>Bonjour ' . $firstname . ' ' . $lastname . ',</p>
                 <p>Une tâche vous a été assignée. Vous pouvez cliquer ci-dessous pour ouvrir les détails :</p>
                 <a href="http://localhost:4200/task/idTask" class="button">Ouvrir la tâche</a>
                 <p>Cordialement</p>
