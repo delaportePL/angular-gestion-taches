@@ -14,9 +14,9 @@ use OpenApi\Attributes as OA;
 use OA\JsonContent;
 use OA\Property;
 
+
 class ApiRestController extends AbstractController
 {
-    
     #[Route('/api/tasks/list', name: 'listTasks', methods: ["GET"])]
     #[OA\Tag(name: 'Tasks')]
     #[OA\Response(
@@ -33,7 +33,6 @@ class ApiRestController extends AbstractController
         return new JsonResponse($TaskService->listTasks());
     }
 
-
     #[Route('/api/tasks/listAssignedByUserId/{user_id}', name: 'listAssignedTasksByUserId', methods: ["GET"])]
     #[OA\Tag(name: 'Tasks')]
     #[OA\Response(
@@ -49,7 +48,7 @@ class ApiRestController extends AbstractController
         return new JsonResponse($TaskService->listTasksById($taskId));
     }
 
-
+    
     #[Route('/api/tasks/add/{type}', name: 'addTask', methods: ["POST"])]
     #[OA\Tag(name: 'Tasks')]
     #[OA\Response(
