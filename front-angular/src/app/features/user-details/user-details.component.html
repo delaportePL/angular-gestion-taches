@@ -1,0 +1,17 @@
+<div>
+	<div class="picture">
+		<ng-container *ngIf="user.imageUrl">
+			<img [src]="'assets/img/' + user.imageUrl" alt="Image de profil" width="64" height="64">
+		</ng-container>
+		<ng-container *ngIf="!user.imageUrl">
+			<span>{{ user.firstName.charAt(0) }} {{ user.lastName.charAt(0) }}</span>
+		</ng-container>
+	</div>
+	<div class="informations">
+		<p>Prénom : {{ user.firstName }}</p>
+		<p>Nom : {{ user.lastName }}</p>
+		<p>Email : {{ user.email }}</p>
+	</div>
+
+</div>
+

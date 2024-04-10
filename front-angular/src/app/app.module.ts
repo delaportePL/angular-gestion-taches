@@ -12,6 +12,7 @@ import { TaskListOverlayComponent } from './features/task-list-overlay/task-list
 import { ReactiveFormsModule } from '@angular/forms';
 import { TaskFormComponent } from './features/task-form/task-form.component';
 import { UserListComponent } from './features/user-list/user-list.component';
+import { UserDetailsComponent } from './features/user-details/user-details.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { UserListComponent } from './features/user-list/user-list.component';
     TaskListOverlayComponent,
     TaskFormComponent,
     UserListComponent,
+    UserDetailsComponent,
   ],
   imports: [
     BrowserModule,

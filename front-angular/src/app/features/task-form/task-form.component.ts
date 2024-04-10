@@ -41,7 +41,6 @@ export class TaskFormComponent implements OnInit {
 
   initForm(): void {
     this.taskForm = this.fb.group({
-      // idTask: ['', Validators.required],
       title: ['', Validators.required],
       projectId: ['', Validators.required],
       state: ['', Validators.required],
@@ -54,7 +53,6 @@ export class TaskFormComponent implements OnInit {
       // modificationDate: ['', Validators.required]
     });
 
-    console.log(this.taskForm)
   }
 
   isFieldValid(fieldName: string) {
@@ -79,8 +77,7 @@ export class TaskFormComponent implements OnInit {
   onSubmit(): void {
     if (this.taskForm.valid) {
       const newTask: Task = this.taskForm.value;
-      console.log("new task", newTask)
-      
+
       this.taskService.addTask(newTask).subscribe(res => {
         console.log(res);
       });

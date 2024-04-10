@@ -4,6 +4,7 @@ import { PageNotFoundComponent } from './features/page-not-found/page-not-found.
 import { TaskListOverlayComponent } from './features/task-list-overlay/task-list-overlay.component';
 import { TaskDetailsComponent } from './features/task-details/task-details.component';
 import { TaskFormComponent } from './features/task-form/task-form.component';
+import { UserListComponent } from './features/user-list/user-list.component';
 
 const routes: Routes = [
   { 
@@ -12,6 +13,7 @@ const routes: Routes = [
       { path:'task/:id', component: TaskDetailsComponent}]
   },
   { path: 'ajouter-tache', component: TaskFormComponent },
+  { path: 'liste-utilisateurs', component: UserListComponent },
   { path: '**', component: PageNotFoundComponent,  pathMatch: 'full' },  // Route for a 404 page
 ];
 

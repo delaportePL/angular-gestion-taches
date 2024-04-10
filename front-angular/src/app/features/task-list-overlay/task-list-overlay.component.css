@@ -3,6 +3,26 @@ div {
 	margin: 24px auto;
 }
 
-h1 {
+
+
+.title-button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 32px;
+}
+
+.title-button > h1 {
 	text-align: center;
+}
+
+.title-button > button {
+	padding: 8px 20px;
+	text-transform: uppercase;
+	font-weight: 900;
+	font: 16px;
+}
+
+.title-button > button:hover{
+	cursor: pointer;
 }
