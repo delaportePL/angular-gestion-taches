@@ -6,7 +6,7 @@
   "lastName": "Konate",
   "email": "david.konate@efrei.net",
   "color": "#FF0000",
-  "imageUrl" : "david-konate.png"
+  "imageUrl": "david-konate.png"
 },
 {
   "_id": {
@@ -16,5 +16,5 @@
   "lastName": "Mascaut",
   "email": "valerie.mass@gmail.com",
   "color": "#0000FF",
-  "imageUrl" : "valerie-mascaut.png"
+  "imageUrl": "valerie-mascaut.png"
 }]

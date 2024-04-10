@@ -43,8 +43,8 @@ class UserService
 
     public function getUserMail(string $user): string
     {
-        $existingUser = $this->collection->findOne(['user' => $user]);
-
+        $existingUser = $this->collection->findOne(["_id" => new \MongoDB\BSON\ObjectId($user)]);
+    
         if (!$existingUser) {
             return false;
         }

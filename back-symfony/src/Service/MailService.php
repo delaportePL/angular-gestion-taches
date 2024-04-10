@@ -29,8 +29,8 @@ class MailService
         try {
             $this->mail->clearAddresses();
             $this->mail->addAddress($email);
-            $this->mail->Subject = "Une nouvelle tâche vous a été attribuée";
-            $this->mail->Body = $this->getBodyMail("Nouvelle tâche attribuée", "Une nouvelle tâche vous a été attribuée");
+            $this->mail->Subject = "Nouvelle tâche";
+            $this->mail->Body = $this->getBodyMail("Nouvelle tâche attribuée");
             $this->mail->send();
             return "Mail envoyé";
         } 
@@ -39,13 +39,67 @@ class MailService
         }
     }
 
-    private function getBodyMail($subject, $text):string
+    private function getBodyMail($subject):string
     {
-        return '<html><head></head><body>
-        <section style="width: 100%; height: 100%; background-color: #f7f7f7;">
-        <div style="width: 70%; height: 100%; margin: 0 auto; padding: 10px 30px 18px 30px; background: white">
-        <br><h3 style="font-weight: 500; font-size: 18px; color: black; margin-bottom:15x;">' . $subject . ' </h3>
-        <p style="font-size: 13.5px; font-weight: 300;  color: black; font-family: \'Google Sans\',Roboto,RobotoDraft,Helvetica,Arial,sans-serif;">   ' . $text . '</p>
-        <br></div></section></body></html>';
+        return '<html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Modèle de Courriel</title>
+            <style>
+                body {
+                    font-family: \'Arial\', sans-serif;
+                    background-color: #f7f7f7;
+                    margin: 0;
+                    padding: 0;
+                }
+                .container {
+                    width: 70%;
+                    margin: 0 auto;
+                    padding: 20px;
+                    background: #fff;
+                    border-radius: 8px;
+                    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+                    text-align: center;
+                }
+                h3 {
+                    font-weight: 700;
+                    font-size: 24px;
+                    color: #333;
+                    margin-bottom: 20px;
+                }
+                p {
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: #666;
+                    line-height: 1.5;
+                    margin-bottom: 20px;
+                }
+                .button {
+                    display: inline-block;
+                    background-color: #007bff;
+                    color: #fff;
+                    padding: 10px 20px;
+                    border-radius: 4px;
+                    text-decoration: none;
+                    font-size: 16px;
+                    transition: background-color 0.3s ease;
+                }
+                .button:hover {
+                    background-color: #0056b3;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h3>' . $subject . '</h3>
+                <p>Bonjour,</p>
+                <p>Une tâche vous a été assignée. Vous pouvez cliquer ci-dessous pour ouvrir les détails :</p>
+                <a href="http://localhost:4200/task/idTask" class="button">Ouvrir la tâche</a>
+                <p>Cordialement</p>
+            </div>
+        </body>
+        </html>
+        ';
     }
 }
