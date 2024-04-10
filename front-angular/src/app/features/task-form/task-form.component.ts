@@ -5,6 +5,8 @@ import { Project } from '../models/project.model';
 import { TaskState } from '../enums/task-state.enum';
 import { TaskCategory } from '../enums/task-category.enum';
 import { TaskService } from '../services/task.service';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-task-form',
@@ -15,6 +17,8 @@ export class TaskFormComponent implements OnInit {
   taskForm!: FormGroup;
   taskStateEnum = TaskState;
   taskCategoryEnum = TaskCategory;
+
+  selectedUser!: User;
   
   projects: Project[] = [
     { projectId: "BRP", label: "Automatisation des tests", tasks: [] },
@@ -23,11 +27,16 @@ export class TaskFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.initForm();
+    this.userService.getUsers().subscribe(res => {
+      this.selectedUser=res[0];
+      this.taskForm.get('creatorUserId')?.setValue(this.selectedUser._id.$oid);
+    })
   }
 
   initForm(): void {
@@ -39,7 +48,7 @@ export class TaskFormComponent implements OnInit {
       category: ['', Validators.required],
       description: [''],
       points: ['', Validators.required],
-      // creatorUserId: ['', Validators.required],
+      creatorUserId: ['', Validators.required],
       // assignedUserId: [''],
       // creationDate: ['', Validators.required],
       // modificationDate: ['', Validators.required]
@@ -70,12 +79,12 @@ export class TaskFormComponent implements OnInit {
   onSubmit(): void {
     if (this.taskForm.valid) {
       const newTask: Task = this.taskForm.value;
-      // Perform any additional actions, such as sending the task to the backend
+      console.log("new task", newTask)
+      
       this.taskService.addTask(newTask).subscribe(res => {
         console.log(res);
       });
     } else {
-      // Handle form validation errors
     }
   }
 }
