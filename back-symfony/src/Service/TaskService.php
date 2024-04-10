@@ -40,27 +40,29 @@ class TaskService
         return $task ? [$task] : null;
     }
 
-    public function addTask(string $type, $requestData): array
+    public function addTask($requestData): array
     {
-        $lastTask = $this->client->selectDatabase('task-management')->selectCollection('tasks')->findOne(['idTask' => new \MongoDB\BSON\Regex("^$type\-")], ['sort' => ['idTask' => -1]]);
+        $projectId = $requestData['project_id'];
+        $lastTask = $this->client->selectDatabase('task-management')->selectCollection('tasks')->findOne(['idTask' => new \MongoDB\BSON\Regex("^" + $projectId + "\-")], ['sort' => ['idTask' => -1]]);
 
         if ($lastTask) {
-            $lastIdNumber = (int) substr($lastTask['idTask'], strlen($type) + 1);
+            $lastIdNumber = (int) substr($lastTask['idTask'], strlen($projectId) + 1);
             $newIdNumber = $lastIdNumber + 1;
-            $newIdTask = $type . '-' . sprintf('%05d', $newIdNumber);
+            $newIdTask = $projectId . '-' . sprintf('%05d', $newIdNumber);
         } else {
-            $newIdTask = $type . '-00001';
+            $newIdTask = $projectId . '-00001';
         }
 
         $newTask = [
             'idTask' => $newIdTask,
+            'projectId' => $projectId,
             'title' => $requestData['title'] ?? null,
             'description' => $requestData['description'] ?? null,
+            'category' => $requestData['category'] ?? null,
             'state' => $requestData['state'] ?? null,
-            'responsability' => $requestData['responsability'] ?? [],
-            'criticality' => $requestData['urgency'] ?? null,
-            'creator' => $requestData['creator'],
-            'dateCreation' => (new DateTime('now', new DateTimeZone('Europe/Paris')))->format('Y-m-d\TH:i:s')
+            'points' => $requestData['points'] ?? null,
+            'creationDate' => (new DateTime('now', new DateTimeZone('Europe/Paris')))->format('Y-m-d\TH:i:s'),
+            'creatorUserId' => $requestData['creatorUserId']
         ];
 
         $collection = $this->client->selectDatabase('task-management')->selectCollection('tasks');
@@ -81,18 +83,13 @@ class TaskService
             return ['message' => 'Tâche non trouvée'];
         }
 
-        $array = $existingTask['responsability'];
-
         unset($requestData['idTask']);
-        unset($requestData['dateCreation']);
+        unset($requestData['creationDate']);
 
-        $requestData['dateUpdate'] = (new DateTime('now', new DateTimeZone('Europe/Paris')))->format('Y-m-d\TH:i:s');
+        $requestData['modificationDate'] = (new DateTime('now', new DateTimeZone('Europe/Paris')))->format('Y-m-d\TH:i:s');
         $updateResult = $this->collection->updateOne(['idTask' => $taskId], ['$set' => $requestData]);
 
         if ($updateResult->getModifiedCount() === 1) {
-            if (isset($requestData['responsability'])){
-                return ['message' => 'Tâche mise à jour avec succès', "users" => array_diff($requestData['responsability'], (array) $existingTask['responsability'])];
-            }
             return ['message' => 'Tâche mise à jour avec succès'];
         } else {
             return ['message' => 'Échec de la mise à jour de la tâche'];
@@ -101,12 +98,18 @@ class TaskService
 
     public function deleteTask(string $taskId): array
     {
-        $deleteResult = $this->collection->deleteOne(['idTask' => $taskId]);
-
+        $deleteResult = $this->collection->deleteOne(["_id" => new \MongoDB\BSON\ObjectId($taskId)]);
+        
         if ($deleteResult->getDeletedCount() === 1) {
-            return ['message' => 'Tâche supprimée avec succès'];
+            // Retrieve the updated list of tasks
+            $tasks = $this->listTasks();
+            return [
+                'message' => 'Tâche supprimée avec succès',
+                'tasks' => $tasks
+        ];
         } else {
             return ['message' => 'Échec de la suppression de la tâche'];
         }
     }
+    
 }

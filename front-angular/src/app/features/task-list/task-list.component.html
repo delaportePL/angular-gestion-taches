@@ -1,5 +1,6 @@
 <ng-container *ngFor="let task of tasks">
 	<app-task-minimized
+		(onDeleteTaskEvent)="deleteTask($event)"
 		[task]="task">
 	</app-task-minimized>
 </ng-container>

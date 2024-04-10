@@ -17,7 +17,7 @@ import { TaskListOverlayComponent } from './features/task-list-overlay/task-list
     TaskDetailsComponent,
     TaskMinimizedComponent,
     PageNotFoundComponent,
-    TaskListOverlayComponent
+    TaskListOverlayComponent,
   ],
   imports: [
     BrowserModule,

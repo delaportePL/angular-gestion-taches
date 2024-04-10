@@ -1,12 +1,17 @@
 <div class="wrapper">
 	<div>
-		<span class="id">id: {{ task.id }}</span>
+		<span class="id">{{ task.idTask }}</span>
 		<span class="title">{{ task.title }}</span>
 		<span class="category">{{ task.category | uppercase}}</span>
 	</div>
 	<div>
 		<span class="points">{{ task.points }}</span>
+		<span class="prioeity">{{ task.priority }}</span>
 		<span class="state">{{ task.state }}</span>
-		<span class="user">user: {{ task.user_id }}</span>
-	</div>	
+		<span class="user">user: {{ task.assignedUserId }}</span>
+	</div>
+	<div class="actions">
+		<img src="assets/img/trash.svg" alt="trash image" width="44" height="44"
+			(click)="onDeleteClick(task)">
+	</div>
 </div>

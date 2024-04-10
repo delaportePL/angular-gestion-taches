@@ -1,39 +1,43 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, tap } from 'rxjs';
 
 import { Task } from '../models/task.model';
+import { TaskResponse } from '../models/task-response.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private tasks: BehaviorSubject<Task[]> = new BehaviorSubject<Task[]>([]);
-  private apiUrl = 'https://your-backend-api-url/tasks';
+  private apiUrl = 'https://127.0.0.1:8000/api/tasks';
 
   constructor(private httpClient: HttpClient) {}
 
   getTasks(): Observable<Task[]> {
     const url = this.apiUrl + "/list";
 
-    return this.httpClient.get<Task[]>(url);
+    return this.httpClient.get<Task[]>(url).pipe(
+      tap(response => {
+        console.log("response", response);
+      })
+    );
   }
 
   addTask(task: Task): Observable<Task> {
-    const url = this.apiUrl + "/list";
+    const url = this.apiUrl + "/add";
 
     return this.httpClient.post<Task>(url, task);
   }
 
   updateTask(updatedTask: Task): Observable<Task> {
-    const url = `${ this.apiUrl }/update/${ updatedTask.id }`;
+    const url = `${ this.apiUrl }/update/${ updatedTask._id }`;
 
     return this.httpClient.put<Task>(url, updatedTask);
   }
 
-  deleteTask(taskId: number): Observable<void> {
-    const url = `${ this.apiUrl }/${ taskId }`;
+  deleteTask(taskId: string): Observable<TaskResponse> {
+    const url = `${ this.apiUrl }/delete/${ taskId }`;
 
-    return this.httpClient.delete<void>(url);
+    return this.httpClient.delete<TaskResponse>(url);
   }
 }
