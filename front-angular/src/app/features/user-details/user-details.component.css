@@ -1,0 +1,24 @@
+.wrapper {
+	max-width: 500px;
+	margin:32px auto;
+	display: grid;
+	align-items: center;
+	grid-template-columns: 100px 400px;
+}
+
+.picture {
+	display: flex;
+	align-items: center;
+}
+
+.picture > * {
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+}
+
+.picture > span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

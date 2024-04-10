@@ -50,6 +50,18 @@
 	</div>
 
 	<div>
+		<label for="assignedUserId">Utilisateur assigné :</label>
+		<select formControlName="assignedUserId" id="assignedUserId">
+			<option *ngFor="let user of users" [value]="user._id.$oid">
+				{{ user.firstName }} {{ user.lastName }}
+			</option>
+		</select>
+		<div class="error-message">
+			<span *ngIf="!isFieldValid('assignedUserId')">{{ returnFormError('assignedUserId') }}</span>
+		</div>
+	</div>
+
+	<div>
 		<label for="description">Description :</label>
 		<textarea formControlName="description" id="description" rows="5" cols="33"></textarea>
 		<div class="error-message">

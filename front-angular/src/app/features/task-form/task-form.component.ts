@@ -7,6 +7,7 @@ import { TaskCategory } from '../enums/task-category.enum';
 import { TaskService } from '../services/task.service';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-form',
@@ -18,6 +19,7 @@ export class TaskFormComponent implements OnInit {
   taskStateEnum = TaskState;
   taskCategoryEnum = TaskCategory;
 
+  users!: User[];
   selectedUser!: User;
   
   projects: Project[] = [
@@ -28,13 +30,15 @@ export class TaskFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private taskService: TaskService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.initForm();
-    this.userService.getUsers().subscribe(res => {
-      this.selectedUser=res[0];
+    this.userService.getUsers().subscribe(users => {
+      this.users = users;
+      this.selectedUser=users[0];
       this.taskForm.get('creatorUserId')?.setValue(this.selectedUser._id.$oid);
     })
   }
@@ -48,7 +52,7 @@ export class TaskFormComponent implements OnInit {
       description: [''],
       points: ['', Validators.required],
       creatorUserId: ['', Validators.required],
-      // assignedUserId: [''],
+      assignedUserId: [''],
       // creationDate: ['', Validators.required],
       // modificationDate: ['', Validators.required]
     });
@@ -77,9 +81,10 @@ export class TaskFormComponent implements OnInit {
   onSubmit(): void {
     if (this.taskForm.valid) {
       const newTask: Task = this.taskForm.value;
-
+      console.log(newTask)
       this.taskService.addTask(newTask).subscribe(res => {
         console.log(res);
+        this.router.navigateByUrl('');
       });
     } else {
     }
