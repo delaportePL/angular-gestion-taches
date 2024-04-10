@@ -2,19 +2,19 @@
   "_id": {
     "$oid": "6613e082eddcdb9ec1ae2b52"
   },
-  "firstName": "David",
-  "lastName": "Konate",
-  "email": "david.konate@efrei.net",
+  "firstName": "Lucie",
+  "lastName": "Chauvin",
+  "email": "lucie.chauvin@portfolio-pl.eu",
   "color": "#FF0000",
-  "imageUrl": "david-konate.png"
+  "imageUrl": "lucie-chauvin.png"
 },
 {
   "_id": {
     "$oid": "661558253ce184b051004881"
   },
-  "firstName": "Valérie",
-  "lastName": "Mascaut",
-  "email": "valerie.mass@gmail.com",
+  "firstName": "Kelly",
+  "lastName": "Jordana",
+  "email": "kelly.jordana@portfolio-pl.eu",
   "color": "#0000FF",
-  "imageUrl": "valerie-mascaut.png"
+  "imageUrl": "kelly-jordana.png"
 }]

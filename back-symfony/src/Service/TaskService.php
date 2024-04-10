@@ -73,7 +73,7 @@ class TaskService
         $insertResult = $collection->insertOne($newTask);
 
         if ($insertResult->getInsertedCount() === 1) {
-            return ['message' => 'Tâche créée avec succès', "users" =>  $requestData['responsability']?? []];
+            return ['message' => 'Tâche créée avec succès', "users" =>  $requestData['assignedUserId']?? []];
         } else {
             return ['message' => 'Échec de la création de la tâche'];
         }
