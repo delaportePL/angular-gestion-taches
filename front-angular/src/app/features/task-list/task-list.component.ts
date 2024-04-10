@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Task } from '../models/task.model';
-import { TaskState } from '../enums/task-state.enum';
-import { TaskCategory } from '../enums/task-category.enum';
 import { TaskService } from '../services/task.service';
-import { TaskResponse } from '../models/task-response.model';
 import { Project } from '../models/project.model';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-task-list',
@@ -15,6 +13,15 @@ import { Project } from '../models/project.model';
 export class TaskListComponent implements OnInit, OnDestroy {
   private _unsubscribeAll: Subject<void> = new Subject<void>();
   tasks!: Task[];
+  filteredByUserTasks!: Task[];
+  selectedUser: User = {
+    "_id": "1",
+    "firstName": "David",
+    "lastName": "Konate",
+    "email": "david.konate@efrei.net",
+    "color": "#FF0000",
+    "imageUrl" : "david-konate.png"
+  };
 
   projects: Project[] = [
     { projectId: "BRP", label: "Automatisation des tests", tasks: [] },
@@ -22,7 +29,6 @@ export class TaskListComponent implements OnInit, OnDestroy {
   ]
 
   constructor(private taskService: TaskService) {}
-
 
   ngOnInit(): void {
     // this.tasks = [
@@ -59,8 +65,11 @@ export class TaskListComponent implements OnInit, OnDestroy {
       this.projects.forEach(project => {
         project.tasks = this.tasks.filter(task => task.projectId == project.projectId);
       });
+
+      this.filteredByUserTasks = this.tasks.filter(task => task.assignedUserId == this.selectedUser._id )
     });
   }
+  
 
 
   deleteTask(taskId: string) {

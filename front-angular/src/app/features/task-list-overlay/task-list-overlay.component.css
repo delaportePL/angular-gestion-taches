@@ -2,3 +2,7 @@ div {
 	max-width: 900px;
 	margin: 24px auto;
 }
+
+h1 {
+	text-align: center;
+}

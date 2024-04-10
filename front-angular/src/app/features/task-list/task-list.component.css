@@ -1,4 +1,31 @@
-.project {
+.list-wrapper {
+	margin: 40px auto;
+}
+
+hr {
+	max-width: 600px;
+	height: 2px;
+	margin: 0 auto;
+	border: 0;
+	background: #777;
+}
+
+h2 {
+	margin: 0 0 12px;
+}
+
+.project > h3 {
+	position: relative;
 	margin-top: 20px;
-	
+	padding-left: 44px;
+}
+.project > h3::after {
+	position: absolute;
+	top:50%;
+	left: 20px;
+	content: "";
+	width: 24px;
+	height: 12px;
+	background-color: rgba(197, 196, 196, 0.8);
+	transform: skewX(-32deg) translate(-50%, -50%);
 }
